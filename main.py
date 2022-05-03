@@ -2,13 +2,15 @@ import pandas as pd
 from justwatch import JustWatch
 import streamlit as st
 
-proveedor = ['prv', 'hbm', 'nfx']
+proveedor = ['prv', 'hbm', 'nfx', 'dnp']
 
 peli_key = 'Ejemplo: house'
 
-st.title('Xpress Streaming Movie')
+st.title('Xpress Streaming')
 
-prov = st.selectbox('Seleccione un proveedor', proveedor)
+st.image('./data/menu.jpg')
+
+prov = st.selectbox('Seleccione un proveedor: Netflix(nfx), Amazon Prime Video(prv), HBOMAx(hbm) o Disney+(dnp)', proveedor)
 st.write('You selected:', prov)
 
 box = st.text_input('Enter your movie word', peli_key)
@@ -19,7 +21,7 @@ just_watch = JustWatch(country='ES', providers = prov)
 
 
 
-lista_pelis = just_watch.search_for_item(query=box, content_types=['movie'])
+lista_pelis = just_watch.search_for_item(query=box, content_types=['movie'], providers = [prov], monetization_types=['flatrate'])
 total_list = len(lista_pelis['items'])
 
 total_pelis = []
@@ -53,14 +55,14 @@ recommend = pd.read_csv('./Data/recommend.csv')
 my_recommendation = pd.merge(recommend, table_col, how='inner', on=['originalTitle'], left_on=None, right_on=None,
 left_index=False, right_index=False, sort=True)
 
-st.dataframe(my_recommendation)
+st.dataframe(my_recommendation['primaryTitle'])
 
+st.header('These are my recommendations...')
 for i in range(len(my_recommendation)):
     st.image('https://images.justwatch.com'+ my_recommendation.loc[i,'poster'].replace('{profile}', '')  + 's592/')
     st.header(my_recommendation.loc[i, 'primaryTitle'])
     st.write(my_recommendation.loc[i, 'averageRating'])
     st.write(my_recommendation.loc[i,'short_description'])
-
 
 
 
