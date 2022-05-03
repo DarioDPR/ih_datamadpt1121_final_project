@@ -2,11 +2,11 @@ import pandas as pd
 from justwatch import JustWatch
 import streamlit as st
 
-proveedor = ['prv' , 'hbm', 'dsn', 'nfx']
+proveedor = ['prv', 'hbm', 'nfx']
 
 peli_key = 'Ejemplo: house'
 
-st.title('Your recommended movie')
+st.title('Xpress Streaming Movie')
 
 prov = st.selectbox('Seleccione un proveedor', proveedor)
 st.write('You selected:', prov)
@@ -15,7 +15,7 @@ box = st.text_input('Enter your movie word', peli_key)
 
 
 
-just_watch = JustWatch(country='ES', providers=prov)
+just_watch = JustWatch(country='ES', providers = prov)
 
 
 
@@ -57,6 +57,10 @@ st.dataframe(my_recommendation)
 
 for i in range(len(my_recommendation)):
     st.image('https://images.justwatch.com'+ my_recommendation.loc[i,'poster'].replace('{profile}', '')  + 's592/')
+    st.header(my_recommendation.loc[i, 'primaryTitle'])
+    st.write(my_recommendation.loc[i, 'averageRating'])
+    st.write(my_recommendation.loc[i,'short_description'])
+
 
 
 
