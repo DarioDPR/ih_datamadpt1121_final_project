@@ -2,15 +2,16 @@ import pandas as pd
 from justwatch import JustWatch
 import streamlit as st
 
+st.set_page_config(layout="centered")
 proveedor = ['prv', 'hbm', 'nfx', 'dnp']
 
 peli_key = 'Ejemplo: house'
 
-st.title('Xpress Streaming')
+st.title('Xpress Streaming Movies')
 
 st.image('./data/menu.jpg')
 
-prov = st.selectbox('Seleccione un proveedor: Netflix(nfx), Amazon Prime Video(prv), HBOMAx(hbm) o Disney+(dnp)', proveedor)
+prov = st.selectbox('Seleccione un proveedor: Netflix(nfx), Amazon Prime Video(prv), HBOMax(hbm) o Disney+(dnp)', proveedor)
 st.write('You selected:', prov)
 
 box = st.text_input('Enter your movie word', peli_key)
@@ -55,13 +56,21 @@ recommend = pd.read_csv('./Data/recommend.csv')
 my_recommendation = pd.merge(recommend, table_col, how='inner', on=['originalTitle'], left_on=None, right_on=None,
 left_index=False, right_index=False, sort=True)
 
-st.dataframe(my_recommendation['primaryTitle'])
+my_recommendation.sort_values(by=['averageRating'], inplace=True, ascending=False)
 
 st.header('These are my recommendations...')
+st.dataframe(my_recommendation['primaryTitle'])
+
 for i in range(len(my_recommendation)):
-    st.image('https://images.justwatch.com'+ my_recommendation.loc[i,'poster'].replace('{profile}', '')  + 's592/')
     st.header(my_recommendation.loc[i, 'primaryTitle'])
-    st.write(my_recommendation.loc[i, 'averageRating'])
+    c1, c2, c3, c4 = st.columns((2, 1, 1, 1))
+    c1.image('https://images.justwatch.com'+ my_recommendation.loc[i,'poster'].replace('{profile}', '')  + 's592/')
+    c2.metric('Year', my_recommendation.loc[i,'original_release_year'])
+    c3.metric('IMDB Rating', my_recommendation.loc[i,'averageRating'])
+    c4.metric('Age Certification', my_recommendation.loc[i,'age_certification'])
+    
+
+
     st.write(my_recommendation.loc[i,'short_description'])
 
 
