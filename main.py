@@ -5,13 +5,13 @@ import streamlit as st
 st.set_page_config(layout="centered")
 proveedor = ['prv', 'hbm', 'nfx', 'dnp']
 
-peli_key = 'Ejemplo: house'
+peli_key = 'e.g.: house'
 
 st.title('Xpress Streaming Movies')
 
 st.image('./data/menu.jpg')
 
-prov = st.selectbox('Seleccione un proveedor: Netflix(nfx), Amazon Prime Video(prv), HBOMax(hbm) o Disney+(dnp)', proveedor)
+prov = st.selectbox('Select your provider: Netflix(nfx), Amazon Prime Video(prv), HBOMax(hbm) o Disney+(dnp)', proveedor)
 st.write('You selected:', prov)
 
 box = st.text_input('Enter your movie word', peli_key)
