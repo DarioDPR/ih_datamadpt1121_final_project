@@ -9,7 +9,7 @@ peli_key = 'e.g.: house'
 
 st.title('Xpress Streaming Movies')
 
-st.image('./data/menu.jpg')
+st.image('./data/menu.JPG')
 
 prov = st.selectbox('Select your provider: Netflix(nfx), Amazon Prime Video(prv), HBOMax(hbm) o Disney+(dnp)', proveedor)
 st.write('You selected:', prov)
